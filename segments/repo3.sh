@@ -22,11 +22,12 @@ __process_settings() {
 
 run_segment() {
     __process_settings
+    fg="colour160"
     repo_tp=$(get_target_product)
     if [ -n "$repo_tp" ]; then
         echo $repo_tp
     else
-        echo "xxx"
+        echo "#[fg=${fg}]xxx"
     fi
 
     return 0

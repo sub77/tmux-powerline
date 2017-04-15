@@ -23,24 +23,20 @@ __process_settings() {
 run_segment() {
     __process_settings
     # Truncate from the left.
-    rcwd2=$(get_repo_cwd2)
-    rcwd=$(get_repo_cwd)
+    tcwd=$(get_tmux_cwd)
     trunc_symbol="···"
-    dir=${rcwd##*/}
+    dir=${tcwd##*/}
     local max_len="$TMUX_POWERLINE_SEG_PWD_MAX_LEN"
     max_len=$(( ( max_len < ${#dir} ) ? ${#dir} : max_len ))
-    trcwd=${rcwd/#$HOME/\~}
-    pwdoffset=$(( ${#trcwd} - max_len ))
+    ttcwd=${tcwd/#$HOME/\~}
+    pwdoffset=$(( ${#ttcwd} - max_len ))
     if [ ${pwdoffset} -gt "0" ]; then
-        trcwd=${ttcwd:$pwdoffset:$max_len}
-        trcwd=${trunc_symbol}/${trcwd#*/}
+        ttcwd=${ttcwd:$pwdoffset:$max_len}
+        ttcwd=${trunc_symbol}/${ttcwd#*/}
     fi
-    romcwd=$(get_rom_cwd)
-    if [ ! "$romcwd" == $trcwd ]; then
-        fg="colour160"
-        echo $trcwd
-    elif [ $(get_rom_name) ]; then
-        echo $rcwd2
+    romname=$(get_rom_name)
+    if [ ! $(get_rom_name) ]; then
+        echo "$ttcwd"
     fi
     return 0
 }
